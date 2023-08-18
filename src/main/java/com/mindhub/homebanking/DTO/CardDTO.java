@@ -7,8 +7,7 @@ import com.mindhub.homebanking.Models.Card;
 import com.mindhub.homebanking.Models.CardColor;
 import com.mindhub.homebanking.Models.CardType;
 import com.mindhub.homebanking.Models.Client;
-import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.*;
+
 import java.time.LocalDate;
 
 public class CardDTO{

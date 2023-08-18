@@ -6,8 +6,7 @@ package com.mindhub.homebanking.DTO;
 import com.mindhub.homebanking.Models.Account;
 import com.mindhub.homebanking.Models.Transaction;
 import com.mindhub.homebanking.Models.TransactionType;
-import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.*;
+
 import java.time.LocalDate;
 
 public class TransactionDTO {
