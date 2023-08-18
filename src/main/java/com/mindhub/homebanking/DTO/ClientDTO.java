@@ -3,10 +3,8 @@
 //╚═══════════════════════════════════════════════════════════╝
 package com.mindhub.homebanking.DTO;
 
-import com.mindhub.homebanking.Models.Account;
 import com.mindhub.homebanking.Models.Client;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+
 import java.util.Set;
 import java.util.HashSet;
 import java.util.stream.Collectors;
