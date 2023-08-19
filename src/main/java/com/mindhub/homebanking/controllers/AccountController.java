@@ -1,5 +1,5 @@
 //╔══════════════════════════════════════════════════════════════╗
-//║					CHE - HOMEBANKING       ║
+//║					CHE - HOMEBANKING       ║
 //╚══════════════════════════════════════════════════════════════╝
 
 package com.mindhub.homebanking.controllers;
@@ -17,16 +17,16 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api")
 public class AccountController {
-    @Autowired
-    private AccountRepository accountRepository;
+	@Autowired
+	private AccountRepository accountRepository;
 
-    @GetMapping("/accounts")
-    public List<AccountDTO> getAccounts() {
-        return accountRepository.findAll().stream().map(client -> new AccountDTO(client)).collect(Collectors.toList());
-    }
+	@GetMapping("/accounts")
+	public List<AccountDTO> getAccounts() {
+		return accountRepository.findAll().stream().map(client -> new AccountDTO(client)).collect(Collectors.toList());
+	}
 
-    @GetMapping("/accounts/{id}")
-    public AccountDTO getAccountById(@PathVariable long id){
-        return new AccountDTO(accountRepository.findById(id).get());
-    }
+	@GetMapping("/accounts/{id}")
+	public AccountDTO getAccountById(@PathVariable long id){
+		return new AccountDTO(accountRepository.findById(id).get());
+	}
 }
