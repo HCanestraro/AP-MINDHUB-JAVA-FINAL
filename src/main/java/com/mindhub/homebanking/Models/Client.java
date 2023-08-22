@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class Client {
@@ -18,10 +19,13 @@ public class Client {
     private String email;
     private String firstName;
     private String lastName;
+    private String password;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
+    //@OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private Set<Account> accounts = new HashSet<>();
 
+    // RELATIONSHIP CLIENT LOAN
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private Set<ClientLoan> clientLoans = new HashSet<>();
 
@@ -31,41 +35,53 @@ public class Client {
     public Client(){
     }
 
-    public Client(String email, String firstName, String lastName) {
+    public Client(String email, String firstName, String lastName, String password) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-    }
-
-    public Long getId() {
-        return id;
+        this.password = password;
     }
     public String getEmail() {
         return email;
     }
-    public void setEmail(String email) {        this.email = email;    }
-    public String getFirstName() {        return firstName;    }
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    public String getFirstName() { return firstName; }
     public String getLastName() {
         return lastName;
+    }
+    public String getPassword() {        return password;    }
+
+    public Set<Account> getAccounts() {
+        return accounts;
+    }
+    public Set<Loan> getLoans() {
+        return this.clientLoans.stream().map(ClientLoan::getLoan).collect(Collectors.toSet());
+    }
+    public Set<Card> getCards() {
+        return this.cards;
+    }
+
+    @JsonIgnore
+    public void setClientLoans(Set<ClientLoan> clientLoans) {
+        this.clientLoans = clientLoans;
+    }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    public Set<Account> getAccounts() {
-        return accounts;
+    public void setEmail(String email) {        this.email = email;    }
+    public Set<ClientLoan> getClientLoans() {        return clientLoans;    }
+
+    public void setPassword(String password) { this.password = password; }
+    public Long getId() {
+        return id;
     }
     public void setAccounts(Set<Account> accounts) {
         this.accounts = accounts;
     }
-    public Set<ClientLoan> getClientLoans() {        return clientLoans;    }
     public void setLoans(Set<ClientLoan> loans) {
         this.clientLoans = loans;
-    }
-    public Set<Card> getCards() {
-        return cards;
     }
     public void setCards(Set<Card> cards) {
         this.cards = cards;
@@ -73,6 +89,9 @@ public class Client {
     public void addAccount(Account account) {
         account.setOwner(this);
         accounts.add(account);
+    }
+    public void addClientLoan(ClientLoan clientLoan) {
+        this.clientLoans.add(clientLoan);
     }
     public void addLoan(ClientLoan loan) {
         loan.setClient(this);

@@ -17,29 +17,30 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 class WebAuthentication extends GlobalAuthenticationConfigurerAdapter {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-			return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		}
-
-		@Autowired
-		ClientRepository clientRepository;
-
-		@Override
-		public void init(AuthenticationManagerBuilder auth) throws Exception {
-			auth.userDetailsService(inputName-> {
-				Client client = clientRepository.findByEmail(inputName);
-
-				if (client != null) {
-					if (client.getEmail().equals("admin@admin.com")) {
-						return new User(client.getEmail(), client.getPassword(),
-								AuthorityUtils.createAuthorityList("ADMIN"));
-					}
-					return new User(client.getEmail(), client.getPassword(),
-							AuthorityUtils.createAuthorityList("USER"));
-
-				} else {
-					throw new UsernameNotFoundException("Unknown user: " + inputName);
-				}
-			});
-		}
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 
+	@Autowired
+	ClientRepository clientRepository;
+
+	@Override
+	public void init(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(inputName -> {
+			Client client = clientRepository.findByEmail(inputName);
+			// .orElse(null);
+
+			if (client != null) {
+				if (client.getEmail().equals("admin@admin.com")) {
+					//return new User(client.getEmail(), client.getPassword(), AuthorityUtils.createAuthorityList(client.getEmail().equals("admin@mindhub.com") ? "ADMIN" : "CLIENT"));
+					return new User(client.getEmail(), client.getPassword(),
+							AuthorityUtils.createAuthorityList("ADMIN"));
+				}
+				return new User(client.getEmail(), client.getPassword(),
+						AuthorityUtils.createAuthorityList("USER"));
+
+			} else {
+				throw new UsernameNotFoundException("Unknown user: " + inputName);
+			}
+		});
+	}
+}
